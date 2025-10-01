@@ -1,0 +1,21 @@
+name: Upload imagenes_gadgetsmx to Cloudinary
+
+on:
+  push:
+    paths:
+      - 'IMAGENES GADGETS/**'  # todas las imágenes de tu carpeta principal y subcarpetas
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Upload images to Cloudinary
+        uses: cloudinary-labs/github-action@v1
+        with:
+          api_key: ${{ secrets.CLOUDINARY_API_KEY }}
+          api_secret: ${{ secrets.CLOUDINARY_API_SECRET }}
+          cloud_name: ${{ secrets.CLOUDINARY_CLOUD_NAME }}
+          folder: 'IMAGENES GADGETS'   # carpeta destino en Cloudinary
