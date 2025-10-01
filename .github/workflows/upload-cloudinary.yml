@@ -1,21 +1,24 @@
-name: Upload imagenes_gadgetsmx to Cloudinary
+name: Upload Images to Cloudinary
 
 on:
   push:
+    branches:
+      - main            # la rama principal de tu repo
     paths:
-      - 'IMAGENES GADGETS/**'  # todas las imágenes de tu carpeta principal y subcarpetas
+      - "cloudinary/**" # cada vez que subas imágenes aquí, se disparará
 
 jobs:
   upload:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Install Cloudinary CLI
+        run: npm install -g cloudinary-cli
 
       - name: Upload images to Cloudinary
-        uses: cloudinary-labs/github-action@v1
-        with:
-          api_key: ${{ secrets.CLOUDINARY_API_KEY }}
-          api_secret: ${{ secrets.CLOUDINARY_API_SECRET }}
-          cloud_name: ${{ secrets.CLOUDINARY_CLOUD_NAME }}
-          folder: 'IMAGENES GADGETS'   # carpeta destino en Cloudinary
+        run: |
+          cloudinary upload cloudinary/ --recursive
+        env:
+          CLOUDINARY_URL: cloudinary://637177732348531:ItYtyZQUOuk0EMvjTEkQJu_4_3I@dubv2ke0u
